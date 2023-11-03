@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>Main Page</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type="text/css" href='../css/output.css'>
+</head>
+
+<body class="w-full bg-slate-800 text-white">
+    <div class="container mx-auto p-5">
+        <h1 class="mb-4 text-2xl font-bold text-center">Example Struct Data</h1>
+        <div class="flex gap-5 justify-center">
+            {{range .DataStructs}}
+            <div class="p-5 border-4 rounded-xl">
+                <h2 class="mb-4 text-xl font-bold text-center">{{.Title}}</h2>
+                <ul>
+                    {{range .Items}}
+                    <li>{{.}}</li>
+                    {{end}}
+                </ul>
+            </div>
+            {{end}}
+        </div>
+    </div>
+</body>
+
+</html>
