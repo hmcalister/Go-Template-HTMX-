@@ -53,6 +53,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("error during embedded file system: %v", err)
 	}
+	indexTemplate, err := template.ParseFS(templatesFS, "index.html")
+	if err != nil {
+		log.Fatalf("error parsing template: %v", err)
+	}
 
 	http.HandleFunc("/static/templates/index", func(w http.ResponseWriter, r *http.Request) {
 		tmpl, err := template.ParseFiles("static/templates/index.html")
