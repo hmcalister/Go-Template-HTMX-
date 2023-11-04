@@ -49,7 +49,10 @@ var (
 func main() {
 	var err error
 
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	templatesFS, err := fs.Sub(templatesFS, "static/templates")
+	if err != nil {
+		log.Fatalf("error during embedded file system: %v", err)
+	}
 
 	http.HandleFunc("/static/templates/index", func(w http.ResponseWriter, r *http.Request) {
 		tmpl, err := template.ParseFiles("static/templates/index.html")
