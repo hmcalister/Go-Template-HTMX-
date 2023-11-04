@@ -1,9 +1,10 @@
-# Standalone Tailwind CLI
+# Setting Up TailwindCSS
 
-First, [download the most recent Tailwind CLI version](https://github.com/tailwindlabs/tailwindcss/releases/latest). Then, [following the official docs](https://tailwindcss.com/blog/standalone-cli), move the tailwind file and make it executable. Initialize the `tailwind.config.js` file:
+Using Node, install tailwind and initialize it:
 
 ```bash
-./tailwindcss init
+npm install -D tailwindcss
+npx tailwindcss init
 ```
 
 Add the path to the template files to the `content` array in `tailwind.config.js`.
@@ -19,17 +20,34 @@ Create an `input.css` file and fill it with whatever tailwind classes required, 
 Finally, start a watcher:
 
 ```bash
-./tailwindcss -i input.css -o output.css --watch
+npx tailwindcss -i input.css -o output.css --watch
 ```
 
 To create a minified css file, use:
 
 ```bash
-./tailwindcss -i input.css -o output.css --minify
+npx tailwindcss -i input.css -o output.css --minify
 ```
 
 Include in your templates the `output.css` file:
 
 ```html
-<link rel='stylesheet' type='text/css' media='screen' href='css/output.css'>
+<link rel='stylesheet' type='text/css' href='../css/output.css'>
+```
+
+# Adding DaisyUI
+
+To add DaisyUI, simply run
+
+```bash
+npm i -D daisyui@latest
+```
+
+Then add DaisyUI to the `module.exports` plugins field:
+
+```js
+module.exports = {
+  //...
+  plugins: [require("daisyui")],
+}
 ```
