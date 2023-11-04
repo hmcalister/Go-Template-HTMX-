@@ -58,12 +58,10 @@ func main() {
 		log.Fatalf("error parsing template: %v", err)
 	}
 
-	http.HandleFunc("/static/templates/index", func(w http.ResponseWriter, r *http.Request) {
-		tmpl, err := template.ParseFiles("static/templates/index.html")
-		if err != nil {
-			log.Fatalf("error parsing template: %v", err)
-		}
-		err = tmpl.Execute(w, PageData{
+	http.HandleFunc("/css/output.css", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/css")
+		w.Write(embedCSSFile)
+	})
 			DataStructs: exampleDataArr,
 		})
 		if err != nil {
