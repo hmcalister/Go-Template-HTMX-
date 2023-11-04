@@ -62,6 +62,9 @@ func main() {
 		w.Header().Set("Content-Type", "text/css")
 		w.Write(embedCSSFile)
 	})
+
+	http.HandleFunc("/index", func(w http.ResponseWriter, r *http.Request) {
+		err = indexTemplate.Execute(w, PageData{
 			DataStructs: exampleDataArr,
 		})
 		if err != nil {
