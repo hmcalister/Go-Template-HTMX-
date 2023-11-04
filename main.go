@@ -1,7 +1,9 @@
 package main
 
 import (
+	"embed"
 	"html/template"
+	"io/fs"
 	"log"
 	"net/http"
 )
@@ -34,6 +36,14 @@ var (
 			},
 		},
 	}
+)
+
+var (
+	//go:embed static/css/output.css
+	embedCSSFile []byte
+
+	//go:embed static/templates/*.html
+	templatesFS embed.FS
 )
 
 func main() {
