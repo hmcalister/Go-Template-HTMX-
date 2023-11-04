@@ -72,7 +72,7 @@ func main() {
 		}
 	})
 
-	log.Printf("Serving template at http://localhost:8080/static/templates/index")
+	log.Printf("Serving template at http://localhost:8080/index")
 	err = http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatalf("error during http serving: %v", err)
