@@ -60,8 +60,15 @@ func main() {
 	})
 
 	// Add any API routes -------------------------------------------------------------------------
+	http.HandleFunc("/api/addItem", func(w http.ResponseWriter, r *http.Request) {
+		cardData := struct {
+			ItemID int
+		}{
+			ItemID: applicationState.AddItem(),
+		}
+		err = cardTemplate.Execute(w, cardData)
 		if err != nil {
-			log.Fatalf("error during template execute: %v", err)
+			log.Fatalf("error during card template execute: %v", err)
 		}
 	})
 
