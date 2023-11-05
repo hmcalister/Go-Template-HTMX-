@@ -72,6 +72,10 @@ func main() {
 		}
 	})
 
+	http.HandleFunc("/api/deleteItem", func(w http.ResponseWriter, r *http.Request) {
+		applicationState.DeleteItem()
+		w.Write(nil)
+	})
 	// Start server -------------------------------------------------------------------------------
 
 	log.Printf("Serving template at http://localhost:8080/index")
