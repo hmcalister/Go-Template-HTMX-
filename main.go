@@ -34,6 +34,11 @@ func main() {
 	if err != nil {
 		log.Fatalf("error parsing template: %v", err)
 	}
+	cardTemplate, err := template.ParseFS(templatesFS, "card.html")
+	if err != nil {
+		log.Fatalf("error parsing template: %v", err)
+	}
+
 	// Add handlers for CSS and HTMX files --------------------------------------------------------
 
 	http.HandleFunc("/css/output.css", func(w http.ResponseWriter, r *http.Request) {
