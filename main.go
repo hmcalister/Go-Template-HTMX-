@@ -53,9 +53,12 @@ func main() {
 
 	// Add handlers for base routes, e.g. initial page --------------------------------------------
 	http.HandleFunc("/index", func(w http.ResponseWriter, r *http.Request) {
-		err = indexTemplate.Execute(w, PageData{
-			DataStructs: exampleDataArr,
-		})
+		err = indexTemplate.Execute(w, nil)
+		if err != nil {
+			log.Fatalf("error during index template execute: %v", err)
+		}
+	})
+
 	// Add any API routes -------------------------------------------------------------------------
 		if err != nil {
 			log.Fatalf("error during template execute: %v", err)
