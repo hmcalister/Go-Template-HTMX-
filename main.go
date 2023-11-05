@@ -2,40 +2,11 @@ package main
 
 import (
 	"embed"
+	"hmcalister/htmxTest/api"
 	"html/template"
 	"io/fs"
 	"log"
 	"net/http"
-)
-
-type ExampleData struct {
-	Title string
-	Items []string
-}
-
-type PageData struct {
-	DataStructs []ExampleData
-}
-
-var (
-	exampleDataArr []ExampleData = []ExampleData{
-		{
-			Title: "Struct One",
-			Items: []string{
-				"Item One",
-				"Item Two",
-				"Item Three",
-			},
-		},
-		{
-			Title: "Struct Two",
-			Items: []string{
-				"Item Alpha",
-				"Item Beta",
-				"Item Gamma",
-			},
-		},
-	}
 )
 
 var (
@@ -51,6 +22,7 @@ var (
 
 func main() {
 	var err error
+	applicationState := api.NewApplicationState()
 
 	templatesFS, err := fs.Sub(templatesFS, "static/templates")
 	if err != nil {
