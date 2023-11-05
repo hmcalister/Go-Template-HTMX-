@@ -24,6 +24,8 @@ func main() {
 	var err error
 	applicationState := api.NewApplicationState()
 
+	// Parse templates from embedded file system --------------------------------------------------
+
 	templatesFS, err := fs.Sub(templatesFS, "static/templates")
 	if err != nil {
 		log.Fatalf("error during embedded file system: %v", err)
@@ -32,6 +34,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("error parsing template: %v", err)
 	}
+	// Add handlers for CSS and HTMX files --------------------------------------------------------
 
 	http.HandleFunc("/css/output.css", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/css")
@@ -43,14 +46,18 @@ func main() {
 		w.Write(embedHTMXFile)
 	})
 
+	// Add handlers for base routes, e.g. initial page --------------------------------------------
 	http.HandleFunc("/index", func(w http.ResponseWriter, r *http.Request) {
 		err = indexTemplate.Execute(w, PageData{
 			DataStructs: exampleDataArr,
 		})
+	// Add any API routes -------------------------------------------------------------------------
 		if err != nil {
 			log.Fatalf("error during template execute: %v", err)
 		}
 	})
+
+	// Start server -------------------------------------------------------------------------------
 
 	log.Printf("Serving template at http://localhost:8080/index")
 	err = http.ListenAndServe(":8080", nil)
