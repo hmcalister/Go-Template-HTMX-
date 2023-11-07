@@ -4,7 +4,13 @@ A quick investigation into using Go Templates with [HTMX](https://htmx.org/). Th
 
 ## Setting Up This Project
 
-First, git clone this project and remove the `.git` directory. Add a new git repo using `git init` if required.
+First, git clone this project and remove the `.git` directory. Add a new git repo using `git init` if required:
+
+```bash
+mkdir NewProject; cd NewProject
+git clone https://github.com/hmcalister/Go-Template-With-HTMX .
+rm -rf .git
+```
 
 Use `go run .` to run the example, which will serve the index webpage at `http://localhost:8080/index`. Navigate to this address with your web-browser to see HTMX in action.
 
