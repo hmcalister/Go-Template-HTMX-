@@ -4,7 +4,7 @@
     </div>
     <div class="card-body">
         <button class="btn btn-active btn-accent btn-block" 
-            hx-get="/api/deleteItem" hx-target="#card{{.ItemID}}" hx-swap="outerHTML swap:0.5s">
+            hx-delete="/api/deleteItem" hx-target="#card{{.ItemID}}" hx-swap="outerHTML swap:0.5s">
             Delete Item {{.ItemID}}
         </button>
     </div>
