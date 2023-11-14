@@ -14,11 +14,11 @@ rm -rf .git
 
 (Make sure you rename the Go module in `go.mod` to whatever you need!)
 
-Use `go run .` to run the example, which will serve the index webpage at `http://localhost:8080/index`. Navigate to this address with your web-browser to see HTMX in action.
+Use `go run .` to run the example, which will serve the index webpage at `http://localhost:8080/`. Navigate to this address with your web-browser to see HTMX in action.
 
 When ready, add your own application code to the `api` package, creating methods that will be called by HTTP requests to the server. It is easiest to have a series of structs that hold your application state and can be updated with simple function calls. Add any required api handlers to `main.go`. Take note of the example handlers for how HTML templates can be executed with application state to return HTML code, as HTMX requires.
 
-Note that `static/css/output.css` and `static/htmx/htmx.js` are embedded and served statically. If your frontend changes drastically (or you change the routes to the front end) ensure your server also serves these static files in the correct place.
+Note that `/css/output.css` and `/htmx/htmx.js` are embedded and served statically. If your frontend changes drastically (or you change the routes to the front end) ensure your server also serves these static files in the correct place.
 
 ## CSS - TailwindCSS and DaisyUI
 
