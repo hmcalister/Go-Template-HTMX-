@@ -6,15 +6,13 @@ import (
 	"fmt"
 	"hmcalister/htmxTest/api"
 	"io/fs"
-	"log"
-	"log/slog"
 	"net/http"
 	"os"
 	"text/template"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
-	"github.com/go-chi/httplog/v2"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
 var (
@@ -26,63 +24,63 @@ var (
 
 	//go:embed static/templates/*.html
 	templatesFS embed.FS
-
-	router *chi.Mux
-
-	port *int
-
-	logFilePath *string
-
-	logFile *os.File
 )
 
-func init() {
+func loggerSetup(logFilePath string, debugFlag bool) *os.File {
 	var err error
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	log.Logger = log.
+		With().Caller().Logger().
+		With().Timestamp().Logger()
 
-	port = flag.Int("port", 8080, "The port to run the application on.")
-	logFilePath = flag.String("logFilePath", "", "File to write logs to. If nil, logs written to os.Stdout.")
-	flag.Parse()
-
-	if *logFilePath == "" {
-		logFile = os.Stdout
-	} else {
-		logFile, err = os.Create(*logFilePath)
-		if err != nil {
-			log.Panicf("error creating httplog file: %v", err)
-		}
+	logFileHandle, err := os.Create(logFilePath)
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed to open log file")
 	}
 
-	router = chi.NewRouter()
-	router.Use(httplog.RequestLogger(httplog.NewLogger("httplog", httplog.Options{
-		LogLevel:       slog.LevelDebug,
-		Concise:        true,
-		RequestHeaders: false,
-		JSON:           (*logFilePath != ""),
-		Writer:         logFile,
-	})))
-	router.Use(middleware.Recoverer)
+	log.Logger = log.Output(logFileHandle)
+	if debugFlag {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+
+		consoleWriter := zerolog.ConsoleWriter{Out: os.Stdout}
+		multiWriter := zerolog.MultiLevelWriter(consoleWriter, logFileHandle)
+		log.Logger = log.Output(multiWriter)
+	}
+
+	return logFileHandle
 }
 
 func main() {
+	var err error
+
+	port := flag.Int("port", 8080, "The port to run the application on.")
+	debugFlag := flag.Bool("debug", false, "Flag for debug level with console log outputs.")
+	logFilePath := flag.String("logFilePath", "log", "File to write logs to. If nil, logs written to os.Stdout.")
+	flag.Parse()
+
+	logFile := loggerSetup(*logFilePath, *debugFlag)
 	defer logFile.Close()
 
-	var err error
 	applicationState := api.NewApplicationState()
 
 	// Parse templates from embedded file system --------------------------------------------------
 
 	templatesFS, err := fs.Sub(templatesFS, "static/templates")
 	if err != nil {
-		log.Fatalf("error during embedded file system: %v", err)
+		log.Fatal().Err(err).Msg("error during embedded file system")
 	}
 	indexTemplate, err := template.ParseFS(templatesFS, "index.html")
 	if err != nil {
-		log.Fatalf("error parsing template: %v", err)
+		log.Fatal().Err(err).Msg("error parsing template")
 	}
 	cardTemplate, err := template.ParseFS(templatesFS, "card.html")
 	if err != nil {
-		log.Fatalf("error parsing template: %v", err)
+		log.Fatal().Err(err).Msg("error parsing template")
 	}
+
+	router := chi.NewRouter()
+	router.Use(zerologLogger)
+	router.Use(recoverWithInternalServerError)
 
 	// Add handlers for CSS and HTMX files --------------------------------------------------------
 
@@ -100,7 +98,7 @@ func main() {
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		err = indexTemplate.Execute(w, nil)
 		if err != nil {
-			log.Fatalf("error during index template execute: %v", err)
+			log.Fatal().Err(err).Msg("error during index template execute")
 		}
 	})
 
@@ -113,7 +111,7 @@ func main() {
 		}
 		err = cardTemplate.Execute(w, cardData)
 		if err != nil {
-			log.Fatalf("error during card template execute: %v", err)
+			log.Fatal().Err(err).Msg("error during card template execute")
 		}
 	})
 
@@ -129,11 +127,9 @@ func main() {
 
 	// Start server -------------------------------------------------------------------------------
 
-	if *logFilePath == "" {
-		log.Printf("Serving template at http://localhost:%v/", *port)
-	}
+	fmt.Printf("Serving at http://localhost:%v/", *port)
 	err = http.ListenAndServe(fmt.Sprintf(":%v", *port), router)
 	if err != nil {
-		log.Fatalf("error during http serving: %v", err)
+		log.Fatal().Err(err).Msg("error during http serving")
 	}
 }
