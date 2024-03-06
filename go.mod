@@ -1,4 +1,4 @@
-module hmcalister/htmxTest
+module github.com/hmcalister/GoHTMXTemplate
 
 go 1.21.0
 

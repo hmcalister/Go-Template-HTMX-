@@ -4,11 +4,12 @@ import (
 	"embed"
 	"flag"
 	"fmt"
-	"hmcalister/htmxTest/api"
 	"io/fs"
 	"net/http"
 	"os"
 	"text/template"
+
+	"github.com/hmcalister/GoHTMXTemplate/api"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog"
