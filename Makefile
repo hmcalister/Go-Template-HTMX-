@@ -1,3 +1,7 @@
+init:
+	git init .
+	touch static/css/output.css
+
 dev: ; make -j2 devCSS devAIR
 
 devCSS:
