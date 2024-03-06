@@ -4,7 +4,20 @@ A quick investigation into using Go Templates with [HTMX](https://htmx.org/). Th
 
 ## Setting Up This Project
 
-First, git clone this project and remove the `.git` directory. Add a new git repo using `git init` if required:
+### Using `gonew`
+
+[GoNew](https://go.dev/blog/gonew) is a tool to create a new go project from a template repository. To use it with this repo, simply run:
+
+```bash
+gonew github.com/hmcalister/GoHTMXTemplate YOUR_PROJECT_NAME
+cd YOUR_PROJECT_NAME
+make init
+```
+
+And start developing!
+
+### Manually
+
 First, git clone this project and remove the `.git` directory:
 
 ```bash
