@@ -5,11 +5,13 @@ A quick investigation into using Go Templates with [HTMX](https://htmx.org/). Th
 ## Setting Up This Project
 
 First, git clone this project and remove the `.git` directory. Add a new git repo using `git init` if required:
+First, git clone this project and remove the `.git` directory:
 
 ```bash
 mkdir NewProject; cd NewProject
 git clone https://github.com/hmcalister/GoHTMXTemplate.
 rm -rf .git
+make init
 ```
 
 (Make sure you rename the Go module in `go.mod` to whatever you need!)
