@@ -1,6 +1,7 @@
 init:
 	git init .
 	touch static/css/output.css
+	cd static/css; npm install -D tailwindcss daisyui@latest
 
 dev: ; make -j2 devCSS devAIR
 
