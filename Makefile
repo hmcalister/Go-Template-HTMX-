@@ -8,4 +8,4 @@ devAIR:
 	
 build:
 	cd static/css; npx tailwindcss -i input.css -o output.css --minify
-	go build .
+	go build . -o build
