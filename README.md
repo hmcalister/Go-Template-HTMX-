@@ -1,4 +1,4 @@
-# Go-Template-With-HTMX
+# GoHTMXTemplate
 
 A quick investigation into using Go Templates with [HTMX](https://htmx.org/). This project also serves as a good template for developing applications with an HTML frontend using Go Templates and HTMX. We also include [TailwindCSS](https://tailwindcss.com/docs/installation) and [DaisyUI](https://daisyui.com) for easy styling. All files are embedded into the compiled binary in this example, but this can be changed if required.
 
@@ -8,7 +8,7 @@ First, git clone this project and remove the `.git` directory. Add a new git rep
 
 ```bash
 mkdir NewProject; cd NewProject
-git clone https://github.com/hmcalister/Go-Template-With-HTMX .
+git clone https://github.com/hmcalister/GoHTMXTemplate.
 rm -rf .git
 ```
 
