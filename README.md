@@ -22,7 +22,7 @@ First, git clone this project and remove the `.git` directory:
 
 ```bash
 mkdir NewProject; cd NewProject
-git clone https://github.com/hmcalister/GoHTMXTemplate.
+git clone https://github.com/hmcalister/GoHTMXTemplate .
 rm -rf .git
 make init
 ```
